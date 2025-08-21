@@ -22,7 +22,7 @@ const addProduct = asyncHandler(async (req, res) => {
 });
 
 const getProducts = asyncHandler(async (req, res) => {
-  const pageSize = 4;
+  const pageSize = 10;
 
   const page = Number(req.query.pageNumber) || 1;
 
@@ -102,6 +102,39 @@ const createReview = asyncHandler(async (req, res) => {
     res.status(404);
     throw new Error("Product Not Found");
   }
+
 });
 
-export { addProduct, getProducts, getProductById , deleteProduct , createReview };
+const updateProduct = asyncHandler(async (req, res) => {
+
+  let { name, price, category, countInStock, brand, description } = req.body
+
+  let product = await Products.findOne({ _id: req.params.id })
+
+  if (product) {
+    product.name = name || product.name
+    product.price = price || product.price
+    product.brand = brand || product.brand
+    product.category = category || product.category
+    product.countInStock = countInStock || product.countInStock
+    product.description = description || product.description
+    product.image = req.file ? req.file.path : product.image
+
+    const updatedProduct = await product.save()
+
+    res.json(updatedProduct)
+
+  } else {
+    res.status(404)
+    throw new Error('Product not found')
+  }
+
+})
+
+
+const getAllProducts = asyncHandler(async (req, res) => {
+  const products = await Products.find()
+  res.json(products)
+})
+
+export { addProduct, getProducts, getProductById, deleteProduct, createReview, updateProduct, getAllProducts };

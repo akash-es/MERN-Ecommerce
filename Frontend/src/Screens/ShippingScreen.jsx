@@ -18,6 +18,8 @@ function ShippingScreen() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
+    console.log('working')
+
 
 
     const submitHandler = (e) => {

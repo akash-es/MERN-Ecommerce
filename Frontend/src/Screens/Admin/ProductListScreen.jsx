@@ -3,14 +3,15 @@ import { FaPlus, FaEdit, FaTrash } from "react-icons/fa";
 import Loader from "../../components/Loader";
 import Message from "../../components/Message";
 import { useNavigate } from "react-router-dom";
-import { 
-  useGetProductsQuery,
+import {
+  useGetAllProductsQuery,
   useDeleteProductMutation,
 } from "../../Slice/ProductApiSlice";
 import { toast } from "react-toastify";
 
 const ProductListScreen = () => {
-  const { data: products, isLoading, error, refetch } = useGetProductsQuery();
+
+  const { data: products, isLoading, error, refetch } = useGetAllProductsQuery();
 
   const [deleteProduct] = useDeleteProductMutation();
 
@@ -59,7 +60,7 @@ const ProductListScreen = () => {
               </tr>
             </thead>
             <tbody>
-              {products?.products?.map((product) => (
+              {products?.map((product) => (
                 <tr key={product._id}>
                   <td>{product._id}</td>
                   <td>{product.name}</td>
@@ -67,7 +68,10 @@ const ProductListScreen = () => {
                   <td>{product.category}</td>
                   <td>{product.brand}</td>
                   <td>
-                    <Button variant="light" className="btn-sm mx-2">
+                    <Button variant="light"
+                      className="btn-sm mx-2"
+                      onClick={() => navigate(`/admin/product/${product._id}/edit`)}
+                    >
                       <FaEdit />
                     </Button>
 

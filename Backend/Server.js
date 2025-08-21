@@ -6,6 +6,7 @@ import cors from"cors";
 import userRoute from "./routes/userRoutes.js";
 import { notFound,errorHandler } from "./middlewares/errorMiddleware.js";
 import productRoute from "./routes/ProductRoutes.js";
+import orderRoute from "./routes/OrderRoutes.js";
 
 
 dotenv.config()
@@ -19,12 +20,14 @@ let port = process.env.PORT;
 
 app.use(cookieParser())
 app.use(express.json())
-app.use(express.urlencoded({extemded:true}));
+app.use(express.urlencoded({extended:true}));
 app.use(cors());
 
 
 app.use("/api/user",userRoute);
-app.use('/api/product',productRoute)
+app.use('/api/product',productRoute);
+app.use('/api/orders',orderRoute)
+
 
 
 app.use(notFound)
